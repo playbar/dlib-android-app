@@ -1,1 +1,3 @@
-include ':app', ':dlib'
+include ':app'
+include ':dlib'
+include ':all'
