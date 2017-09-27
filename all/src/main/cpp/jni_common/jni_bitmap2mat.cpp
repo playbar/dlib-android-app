@@ -12,8 +12,8 @@ namespace jniutils {
 
 using namespace cv;
 
-void ConvertBitmapToRGBAMat(JNIEnv* env, jobject& bitmap, Mat& dst,
-                            bool needUnPremultiplyAlpha) {
+void ConvertBitmapToRGBAMat(JNIEnv* env, jobject& bitmap, Mat& dst, bool needUnPremultiplyAlpha)
+{
   AndroidBitmapInfo info;
   void* pixels = 0;
 

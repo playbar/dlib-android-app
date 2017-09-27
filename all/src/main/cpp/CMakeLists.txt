@@ -4,51 +4,54 @@ cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions")
 
 
+
 add_library(lib_cv SHARED IMPORTED)
 set_target_properties(lib_cv PROPERTIES IMPORTED_LOCATION
     ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 
+add_library(lib_cpu STATIC IMPORTED)
+set_target_properties(lib_cpu PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libcpufeatures.a)
+
+add_library(lib_imf STATIC IMPORTED)
+set_target_properties(lib_imf PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libIlmImf.a)
+
+add_library(lib_jpeg STATIC IMPORTED)
+set_target_properties(lib_jpeg PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/liblibjpeg.a)
+
+add_library(lib_png STATIC IMPORTED)
+set_target_properties(lib_png PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/liblibpng.a)
+
+
+add_library(lib_core STATIC IMPORTED)
+set_target_properties(lib_core PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_core.a)
+
+add_library(lib_imgcodecs STATIC IMPORTED)
+set_target_properties(lib_imgcodecs PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_imgcodecs.a)
+
+add_library(lib_imgpro STATIC IMPORTED)
+set_target_properties(lib_imgpro PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_imgproc.a)
+
+add_library(lib_objdetect STATIC IMPORTED)
+set_target_properties(lib_objdetect PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_objdetect.a)
+
+add_library(lib_hal STATIC IMPORTED)
+set_target_properties(lib_hal PROPERTIES IMPORTED_LOCATION
+    ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libtegra_hal.a)
+
 add_library(android_dlib SHARED
-            dlib/base64/base64_kernel_1.cpp
-            dlib/bigint/bigint_kernel_1.cpp
-            dlib/bigint/bigint_kernel_2.cpp
-            dlib/bit_stream/bit_stream_kernel_1.cpp
-            dlib/entropy_decoder/entropy_decoder_kernel_1.cpp
-            dlib/entropy_decoder/entropy_decoder_kernel_2.cpp
-            dlib/entropy_encoder/entropy_encoder_kernel_1.cpp
-            dlib/entropy_encoder/entropy_encoder_kernel_2.cpp
-            dlib/md5/md5_kernel_1.cpp
-            dlib/tokenizer/tokenizer_kernel_1.cpp
-            dlib/unicode/unicode.cpp
-            dlib/data_io/image_dataset_metadata.cpp
-            dlib/data_io/mnist.cpp
-            dlib/sockets/sockets_kernel_1.cpp
-             dlib/bsp/bsp.cpp
-             dlib/dir_nav/dir_nav_kernel_1.cpp
-             dlib/dir_nav/dir_nav_kernel_2.cpp
-             dlib/dir_nav/dir_nav_extensions.cpp
-             dlib/linker/linker_kernel_1.cpp
-             dlib/logger/extra_logger_headers.cpp
-             dlib/logger/logger_kernel_1.cpp
-             dlib/logger/logger_config_file.cpp
-             dlib/misc_api/misc_api_kernel_1.cpp
-             dlib/misc_api/misc_api_kernel_2.cpp
-             dlib/sockets/sockets_extensions.cpp
-             dlib/sockets/sockets_kernel_2.cpp
-             dlib/sockstreambuf/sockstreambuf.cpp
-             dlib/sockstreambuf/sockstreambuf_unbuffered.cpp
-             dlib/server/server_kernel.cpp
-             dlib/server/server_iostream.cpp
-             dlib/server/server_http.cpp
-             dlib/threads/multithreaded_object_extension.cpp
-             dlib/threads/threaded_object_extension.cpp
+             dlib/threads/threads_kernel_shared.cpp
+             dlib/entropy_decoder/entropy_decoder_kernel_2.cpp
+             dlib/base64/base64_kernel_1.cpp
              dlib/threads/threads_kernel_1.cpp
              dlib/threads/threads_kernel_2.cpp
-             dlib/threads/threads_kernel_shared.cpp
-             dlib/threads/thread_pool_extension.cpp
-             dlib/threads/async.cpp
-             dlib/timer/timer.cpp
-             dlib/stack_trace.cpp
             jni_common/jni_bitmap2mat.cpp
             jni_common/jni_fileutils.cpp
             jni_common/jni_utils.cpp
@@ -72,6 +75,15 @@ target_include_directories(android_dlib PRIVATE
 target_link_libraries(android_dlib
                         log
                         lib_cv
+                        #lib_cpu
+                        #lib_imf
+                        #lib_jpeg
+                        #lib_png
+                        #lib_core
+                        #lib_imgcodecs
+                        #lib_imgpro
+                        #lib_objdetect
+                        #lib_hal
                         jnigraphics
                         android)
 

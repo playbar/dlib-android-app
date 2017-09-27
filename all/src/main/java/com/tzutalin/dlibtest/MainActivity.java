@@ -1,7 +1,3 @@
-/*
-*  Copyright (C) 2015-present TzuTaLin
-*/
-
 package com.tzutalin.dlibtest;
 
 import android.Manifest;
@@ -38,12 +34,12 @@ import com.tzutalin.dlib.FaceDet;
 import com.tzutalin.dlib.PedestrianDet;
 import com.tzutalin.dlib.VisionDetRet;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
+//import org.androidannotations.annotations.AfterViews;
+//import org.androidannotations.annotations.Background;
+//import org.androidannotations.annotations.Click;
+//import org.androidannotations.annotations.EActivity;
+//import org.androidannotations.annotations.UiThread;
+//import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,7 +48,7 @@ import java.util.List;
 import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
-@EActivity(R.layout.activity_main)
+//@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMG = 1;
     private static final int REQUEST_CODE_PERMISSION = 2;
@@ -68,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
 
     protected String mTestImgPath;
     // UI
-    @ViewById(R.id.material_listview)
+//    @ViewById(R.id.material_listview)
     protected MaterialListView mListView;
-    @ViewById(R.id.fab)
+//    @ViewById(R.id.fab)
     protected FloatingActionButton mFabActionBt;
-    @ViewById(R.id.fab_cam)
+//    @ViewById(R.id.fab_cam)
     protected FloatingActionButton mFabCamActionBt;
-    @ViewById(R.id.toolbar)
+//    @ViewById(R.id.toolbar)
     protected Toolbar mToolbar;
 
     FaceDet mFaceDet;
@@ -97,20 +93,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @AfterViews
+//    @AfterViews
     protected void setupUI() {
         mToolbar.setTitle(getString(R.string.app_name));
         Toast.makeText(MainActivity.this, getString(R.string.description_info), Toast.LENGTH_LONG).show();
     }
 
-    @Click({R.id.fab})
+//    @Click({R.id.fab})
     protected void launchGallery() {
         Toast.makeText(MainActivity.this, "Pick one image", Toast.LENGTH_SHORT).show();
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
     }
 
-    @Click({R.id.fab_cam})
+//    @Click({R.id.fab_cam})
     protected void launchCameraPreview() {
         startActivity(new Intent(this, CameraActivity.class));
     }
@@ -218,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     // ==========================================================
     private ProgressDialog mDialog;
 
-    @Background
+//    @Background
     @NonNull
     protected void runDetectAsync(@NonNull String imgPath) {
         showDiaglog();
@@ -283,19 +279,19 @@ public class MainActivity extends AppCompatActivity {
         dismissDialog();
     }
 
-    @UiThread
+//    @UiThread
     protected void addCardListView(List<Card> cardrets) {
         for (Card each : cardrets) {
             mListView.add(each);
         }
     }
 
-    @UiThread
+//    @UiThread
     protected void showDiaglog() {
         mDialog = ProgressDialog.show(MainActivity.this, "Wait", "Person and face detection", true);
     }
 
-    @UiThread
+//    @UiThread
     protected void dismissDialog() {
         if (mDialog != null) {
             mDialog.dismiss();

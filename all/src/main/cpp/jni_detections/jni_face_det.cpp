@@ -12,6 +12,7 @@
 #include <jni_common/jni_fileutils.h>
 #include <jni_common/jni_utils.h>
 #include <detector.h>
+#include "mylog.h"
 #include <jni.h>
 
 
@@ -87,8 +88,10 @@ extern "C" {
 #define DLIB_FACE_JNI_METHOD(METHOD_NAME) \
   Java_com_tzutalin_dlib_FaceDet_##METHOD_NAME
 
-void JNIEXPORT
-    DLIB_FACE_JNI_METHOD(jniNativeClassInit)(JNIEnv* env, jclass _this) {}
+void JNIEXPORT Java_com_tzutalin_dlib_FaceDet_jniNativeClassInit(JNIEnv* env, jclass _this)
+{
+    LOGI("Java_com_tzutalin_dlib_FaceDet_jniNativeClassInit");
+}
 
 jobjectArray getDetectResult(JNIEnv* env, DetectorPtr faceDetector,
                              const int& size) {
@@ -117,8 +120,8 @@ jobjectArray getDetectResult(JNIEnv* env, DetectorPtr faceDetector,
 }
 
 JNIEXPORT jobjectArray JNICALL
-    DLIB_FACE_JNI_METHOD(jniDetect)(JNIEnv* env, jobject thiz,
-                                    jstring imgPath) {
+Java_com_tzutalin_dlib_FaceDet_jniDetect(JNIEnv* env, jobject thiz, jstring imgPath)
+{
   LOG(INFO) << "jniFaceDet";
   const char* img_path = env->GetStringUTFChars(imgPath, 0);
   DetectorPtr detPtr = getDetectorPtr(env, thiz);
@@ -129,8 +132,8 @@ JNIEXPORT jobjectArray JNICALL
 }
 
 JNIEXPORT jobjectArray JNICALL
-    DLIB_FACE_JNI_METHOD(jniBitmapDetect)(JNIEnv* env, jobject thiz,
-                                          jobject bitmap) {
+Java_com_tzutalin_dlib_FaceDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobject bitmap)
+{
   LOG(INFO) << "jniBitmapFaceDet";
   cv::Mat rgbaMat;
   cv::Mat bgrMat;
@@ -147,18 +150,18 @@ JNIEXPORT jobjectArray JNICALL
   return getDetectResult(env, detPtr, size);
 }
 
-jint JNIEXPORT JNICALL DLIB_FACE_JNI_METHOD(jniInit)(JNIEnv* env, jobject thiz,
-                                                     jstring jLandmarkPath) {
+jint JNIEXPORT JNICALL
+Java_com_tzutalin_dlib_FaceDet_jniInit(JNIEnv* env, jobject thiz, jstring jLandmarkPath)
+{
   LOG(INFO) << "jniInit";
   std::string landmarkPath = jniutils::convertJStrToString(env, jLandmarkPath);
   DetectorPtr detPtr = new DLibHOGFaceDetector(landmarkPath);
   setDetectorPtr(env, thiz, detPtr);
-  ;
   return JNI_OK;
 }
 
-jint JNIEXPORT JNICALL
-    DLIB_FACE_JNI_METHOD(jniDeInit)(JNIEnv* env, jobject thiz) {
+jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_FaceDet_jniDeInit(JNIEnv* env, jobject thiz)
+{
   LOG(INFO) << "jniDeInit";
   setDetectorPtr(env, thiz, JAVA_NULL);
   return JNI_OK;

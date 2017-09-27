@@ -10,10 +10,6 @@ import android.util.Log;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by houzhi on 16-10-20.
- * Modified by tzutalin on 16-11-15
- */
 public class FaceDet {
     private static final String TAG = "dlib";
 

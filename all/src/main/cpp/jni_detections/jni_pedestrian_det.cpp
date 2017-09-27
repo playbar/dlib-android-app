@@ -103,7 +103,8 @@ jobjectArray getDetRet(JNIEnv* env, DetectorPtr detectorPtr, const int& size) {
 }
 
 JNIEXPORT jobjectArray JNICALL
-    DLIB_JNI_METHOD(jniDetect)(JNIEnv* env, jobject thiz, jstring jImgPath) {
+Java_com_tzutalin_dlib_PedestrianDet_jniDetect(JNIEnv* env, jobject thiz, jstring jImgPath)
+{
   LOG(INFO) << "jniPeopleDet";
   std::string path = jniutils::convertJStrToString(env, jImgPath);
   cv::Mat src_img = cv::imread(path, CV_LOAD_IMAGE_COLOR);
@@ -114,8 +115,8 @@ JNIEXPORT jobjectArray JNICALL
 }
 
 JNIEXPORT jobjectArray JNICALL
-    DLIB_JNI_METHOD(jniBitmapDetect)(JNIEnv* env, jobject thiz,
-                                     jobject bitmap) {
+Java_com_tzutalin_dlib_PedestrianDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobject bitmap)
+{
   LOG(INFO) << "jniBitmapPeopleDet";
   cv::Mat rgbaMat;
   cv::Mat bgrMat;
@@ -127,7 +128,8 @@ JNIEXPORT jobjectArray JNICALL
   return getDetRet(env, detPtr, size);
 }
 
-jint JNIEXPORT JNICALL DLIB_JNI_METHOD(jniInit)(JNIEnv* env, jobject thiz) {
+jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniInit(JNIEnv* env, jobject thiz)
+{
   LOG(INFO) << "jniInit";
   DetectorPtr detPtr = new OpencvHOGDetctor();
   setDetectorPtr(env, thiz, detPtr);
@@ -136,7 +138,8 @@ jint JNIEXPORT JNICALL DLIB_JNI_METHOD(jniInit)(JNIEnv* env, jobject thiz) {
   return JNI_OK;
 }
 
-jint JNIEXPORT JNICALL DLIB_JNI_METHOD(jniDeInit)(JNIEnv* env, jobject thiz) {
+jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniDeInit(JNIEnv* env, jobject thiz)
+{
   LOG(INFO) << "jniDeInit";
   return JNI_OK;
 }
