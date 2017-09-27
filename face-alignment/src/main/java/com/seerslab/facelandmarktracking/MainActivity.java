@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         FileUtils.copyAssetFile(this, "haarcascade_frontalface_alt2.xml", getFilesDir().getAbsolutePath() + "/haarcascade_frontalface_alt2.xml", buffer);
         FileUtils.copyAssetFile(this, "haarcascade_frontalface_alt.xml", getFilesDir().getAbsolutePath() + "/haarcascade_frontalface_alt.xml", buffer);
         FileUtils.copyAssetFile(this, "haarcascade_frontalface_alt_tree.xml", getFilesDir().getAbsolutePath() + "/haarcascade_frontalface_alt_tree.xml", buffer);
-        // TODO Asset 폴더에 있는 Tracker File Path SD 카드에 옮기기
 //        FileUtils.copyAssetFile(this, "LBF.model", getFilesDir().getAbsolutePath() + "/LBF.model", buffer);
 //        FileUtils.copyAssetFile(this, "Regressor.model", getFilesDir().getAbsolutePath() + "/Regressor.model", buffer);
         FileUtils.copyAssetFile(this, "model.bin", getFilesDir().getAbsolutePath() + "/model.bin", buffer);
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private CameraHandler.CameraStateListener mCameraStateListener = new CameraHandler.CameraStateListener() {
         @Override
         public void onReadyCamera(boolean success, int width, int height) {
-            // TODO Tracker File Path 정의
             String trackerFilePath = getFilesDir().getAbsolutePath();
             String detectorFilePath = getFilesDir().getAbsolutePath() + "/haarcascade_frontalface_alt.xml";
             mCameraHandler.startFaceTracking(trackerFilePath, detectorFilePath);

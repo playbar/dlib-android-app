@@ -5,7 +5,6 @@
 #include "FaceTracker.h"
 
 FaceTracker::FaceTracker(const char* tracker_path, const char* detector_xml_path) {
-    // Getter 메소드로 얻을 수 있는 변수들은 모두 이 함수내에서 값이 갱신된다
     //LOG.D("TJ Initialilze Start");
     Initialize(tracker_path, detector_xml_path);
     //LOGD("TJ Convert RGB to Gray");
@@ -173,7 +172,8 @@ bool FaceTracker::isDetected() {
     if( !faces.empty() )
         faces.clear();
     clock_t t = clock();
-    g_params.faceCascade.detectMultiScale(scaled_image, faces, 1.1, 2, 0 | CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH | CV_HAAR_SCALE_IMAGE, Size(30, 30));
+    g_params.faceCascade.detectMultiScale(scaled_image, faces, 1.1, 2,
+                                          0 | CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH | CV_HAAR_SCALE_IMAGE, Size(30, 30));
     //LOGE("detection time = %f sec", (double)(clock()-t) / CLOCKS_PER_SEC);
 
     if (faces.empty())

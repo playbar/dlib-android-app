@@ -120,16 +120,21 @@ int Tracking::readModel(sModel* model)
 	}
 	model->meanface = model->meanface.t();
 
+//	cv::imwrite("/sdcard/ret.jpg", model->meanface);
+
 	//read random forest
 	model->rf = Mat::zeros(model->head.num_tree_total, model->head.dim_tree, CV_32FC1);
 	for (int i = 0; i < model->rf.rows; i++)
 		fread(model->rf.ptr<float>(i), sizeof(float)*model->rf.cols, 1, fp);
+
+//	cv::imwrite("/sdcard/ret.jpg", model->rf);
 
 	//read weights
 	model->w = Mat::zeros(model->head.dim_feat* model->head.num_stage, model->head.num_point * 2, CV_32FC1);
 	for (int i = 0; i < model->w.rows; i++)
 		fread(model->w.ptr<float>(i), sizeof(float)*model->w.cols, 1, fp);
 
+//	cv::imwrite("/sdcard/ret.jpg", model->w);
 	fclose(fp);
 	return 0;
 }

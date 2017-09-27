@@ -9,7 +9,8 @@ JNIEXPORT void JNICALL
 Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeInitializeFaceTracker( JNIEnv *env,
                                                                                              jobject instance,
                                                                                              jstring trackerFilePath_,
-                                                                                             jstring detectorXmlFilePath_) {
+                                                                                             jstring detectorXmlFilePath_)
+{
     const char *trackerFilePath = env->GetStringUTFChars(trackerFilePath_, 0);
     const char *detectorXmlFilePath = env->GetStringUTFChars(detectorXmlFilePath_, 0);
 
@@ -22,8 +23,8 @@ Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeInitialize
 }
 
 JNIEXPORT void JNICALL
-Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeDestroyFaceTracker(
-        JNIEnv *env, jobject instance) {
+Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeDestroyFaceTracker(JNIEnv *env, jobject instance)
+{
     if (faceTracker != NULL) {
         delete faceTracker;
         faceTracker = NULL;
@@ -36,7 +37,8 @@ Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeTrackFace(
                                                                                 jbyteArray frame_,
                                                                                 jint width,
                                                                                 jint height,
-                                                                                jint facing) {
+                                                                                jint facing)
+{
     jbyte *frame = env->GetByteArrayElements(frame_, NULL);
     jfloatArray retArray = NULL;
     if (faceTracker != NULL) {
@@ -57,9 +59,10 @@ Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeTrackFace(
 }
 
 JNIEXPORT void JNICALL
-Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeReset(JNIEnv *env,
-                                                                            jobject instance) {
-    if (faceTracker != NULL) {
+Java_com_seerslab_facelandmarktracking_facetracking_FaceTracker_nativeReset(JNIEnv *env, jobject instance)
+{
+    if (faceTracker != NULL)
+    {
         faceTracker->Reset();
     }
 }
