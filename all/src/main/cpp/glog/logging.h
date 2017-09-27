@@ -301,7 +301,7 @@ class LoggerVoidify {
 #define LOG_IF(severity, condition) \
   (static_cast<int>(severity) > google::log_severity_global || !(condition)) ? \
   (void) 0 : LoggerVoidify() &                                          \
-  MessageLogger((char *)__FILE__, __LINE__, "native", severity).stream()
+  MessageLogger((char *)__FILE__, __LINE__, "detect", severity).stream()
 
 // Log only if condition is NOT met.  Otherwise evaluates to void.
 #define LOG_IF_FALSE(severity, condition) LOG_IF(severity, !(condition))

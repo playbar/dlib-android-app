@@ -1,12 +1,3 @@
-/*
- * detector.h using google-style
- *
- *  Created on: May 24, 2016
- *      Author: Tzutalin
- *
- *  Copyright (c) 2016 Tzutalin. All rights reserved.
- */
-
 #pragma once
 
 #include <jni_common/jni_fileutils.h>
@@ -32,17 +23,25 @@ class OpencvHOGDetctor {
  public:
   OpencvHOGDetctor() {}
 
-  inline int det(const cv::Mat& src_img) {
+    virtual inline int det(const std::string& path)
+    {
+        LOG(INFO) << "Read path from " << path;
+        cv::Mat src_img = cv::imread(path, CV_LOAD_IMAGE_COLOR);
+        return det(src_img);
+    }
+
+  inline int det(const cv::Mat& src_img)
+  {
     if (src_img.empty())
       return 0;
 
     cv::HOGDescriptor hog;
     hog.setSVMDetector(cv::HOGDescriptor::getDefaultPeopleDetector());
     std::vector<cv::Rect> found, found_filtered;
-    hog.detectMultiScale(src_img, found, 0, cv::Size(8, 8), cv::Size(32, 32),
-                         1.05, 2);
+    hog.detectMultiScale(src_img, found, 0, cv::Size(8, 8), cv::Size(32, 32), 1.05, 2);
     size_t i, j;
-    for (i = 0; i < found.size(); i++) {
+    for (i = 0; i < found.size(); i++)
+    {
       cv::Rect r = found[i];
       for (j = 0; j < found.size(); j++)
         if (j != i && (r & found[j]) == r)
@@ -51,7 +50,8 @@ class OpencvHOGDetctor {
         found_filtered.push_back(r);
     }
 
-    for (i = 0; i < found_filtered.size(); i++) {
+    for (i = 0; i < found_filtered.size(); i++)
+    {
       cv::Rect r = found_filtered[i];
       r.x += cvRound(r.width * 0.1);
       r.width = cvRound(r.width * 0.8);
@@ -66,38 +66,51 @@ class OpencvHOGDetctor {
     return found_filtered.size();
   }
 
-  inline cv::Mat& getResultMat() { return mResultMat; }
+  inline cv::Mat& getResultMat()
+  {
+      return mResultMat;
+  }
 
-  inline std::vector<cv::Rect>& getResult() { return mRets; }
+  inline std::vector<cv::Rect>& getResult()
+  {
+      return mRets;
+  }
 
  private:
   cv::Mat mResultMat;
   std::vector<cv::Rect> mRets;
 };
 
-class DLibHOGDetector {
+class DLibHOGDetector
+{
  private:
   typedef dlib::scan_fhog_pyramid<dlib::pyramid_down<6>> image_scanner_type;
   dlib::object_detector<image_scanner_type> mObjectDetector;
 
-  inline void init() {
+  inline void init()
+  {
     LOG(INFO) << "Model Path: " << mModelPath;
-    if (jniutils::fileExists(mModelPath)) {
+    if (jniutils::fileExists(mModelPath))
+    {
       dlib::deserialize(mModelPath) >> mObjectDetector;
-    } else {
+    }
+    else
+    {
       LOG(INFO) << "Not exist " << mModelPath;
     }
   }
 
  public:
-  DLibHOGDetector(const std::string& modelPath = "/sdcard/person.svm")
-      : mModelPath(modelPath) {
+  DLibHOGDetector(const std::string& modelPath = "/sdcard/person.svm") : mModelPath(modelPath)
+  {
     init();
   }
 
-  virtual inline int det(const std::string& path) {
+  virtual inline int det(const std::string& path)
+  {
     using namespace jniutils;
-    if (!fileExists(mModelPath) || !fileExists(path)) {
+    if (!fileExists(mModelPath) || !fileExists(path))
+    {
       LOG(WARNING) << "No modle path or input file path";
       return 0;
     }
@@ -110,14 +123,15 @@ class DLibHOGDetector {
     int im_size_max = MAX(img_width, img_height);
 
     float scale = float(INPUT_IMG_MIN_SIZE) / float(im_size_min);
-    if (scale * im_size_max > INPUT_IMG_MAX_SIZE) {
+    if (scale * im_size_max > INPUT_IMG_MAX_SIZE)
+    {
       scale = (float)INPUT_IMG_MAX_SIZE / (float)im_size_max;
     }
 
-    if (scale != 1.0) {
+    if (scale != 1.0)
+    {
       cv::Mat outputMat;
-      cv::resize(src_img, outputMat,
-                 cv::Size(img_width * scale, img_height * scale));
+      cv::resize(src_img, outputMat, cv::Size(img_width * scale, img_height * scale));
       src_img = outputMat;
     }
 
@@ -143,7 +157,8 @@ class DLibHOGDetector {
 /*
  * DLib face detect and face feature extractor
  */
-class DLibHOGFaceDetector : public DLibHOGDetector {
+class DLibHOGFaceDetector : public DLibHOGDetector
+{
  private:
   std::string mLandMarkModel;
   dlib::shape_predictor msp;
@@ -156,18 +171,23 @@ class DLibHOGFaceDetector : public DLibHOGDetector {
   }
 
  public:
-  DLibHOGFaceDetector() { init(); }
+  DLibHOGFaceDetector()
+  {
+      init();
+  }
 
-  DLibHOGFaceDetector(const std::string& landmarkmodel)
-      : mLandMarkModel(landmarkmodel) {
+  DLibHOGFaceDetector(const std::string& landmarkmodel) : mLandMarkModel(landmarkmodel)
+  {
     init();
-    if (!mLandMarkModel.empty() && jniutils::fileExists(mLandMarkModel)) {
+    if (!mLandMarkModel.empty() && jniutils::fileExists(mLandMarkModel))
+    {
       dlib::deserialize(mLandMarkModel) >> msp;
       LOG(INFO) << "Load landmarkmodel from " << mLandMarkModel;
     }
   }
 
-  virtual inline int det(const std::string& path) {
+  virtual inline int det(const std::string& path)
+  {
     LOG(INFO) << "Read path from " << path;
     cv::Mat src_img = cv::imread(path, CV_LOAD_IMAGE_COLOR);
     return det(src_img);
@@ -176,7 +196,8 @@ class DLibHOGFaceDetector : public DLibHOGDetector {
   // The format of mat should be BGR or Gray
   // If converting 4 channels to 3 channls because the format could be BGRA or
   // ARGB
-  virtual inline int det(const cv::Mat& image) {
+  virtual inline int det(const cv::Mat& image)
+  {
     if (image.empty())
       return 0;
     LOG(INFO) << "com_tzutalin_dlib_PeopleDet go to det(mat)";
@@ -202,7 +223,8 @@ class DLibHOGFaceDetector : public DLibHOGDetector {
     return mRets.size();
   }
 
-  std::unordered_map<int, dlib::full_object_detection>& getFaceShapeMap() {
+  std::unordered_map<int, dlib::full_object_detection>& getFaceShapeMap()
+  {
     return mFaceShapeMap;
   }
 };

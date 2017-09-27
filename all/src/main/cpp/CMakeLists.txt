@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions")
-
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfloat-abi=softfp")
 
 
 add_library(lib_cv SHARED IMPORTED)

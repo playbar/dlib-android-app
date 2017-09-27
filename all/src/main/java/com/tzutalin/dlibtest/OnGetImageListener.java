@@ -221,6 +221,7 @@ public class OnGetImageListener implements OnImageAvailableListener {
                 new Runnable() {
                     @Override
                     public void run() {
+                        Log.e("detect", "begin");
                         if (!new File(Constants.getFaceShapeModelPath()).exists()) {
                             mTransparentTitleView.setText("Copying landmark model to " + Constants.getFaceShapeModelPath());
                             FileUtils.copyFileFromRawToOthers(mContext, R.raw.shape_predictor_68_face_landmarks, Constants.getFaceShapeModelPath());
@@ -257,6 +258,7 @@ public class OnGetImageListener implements OnImageAvailableListener {
 
                         mWindow.setRGBBitmap(mCroppedBitmap);
                         mIsComputing = false;
+                        Log.e("detect", "end");
                     }
                 });
 
