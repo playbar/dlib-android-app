@@ -1,3 +1,5 @@
 include ':app'
 include ':dlib'
 include ':all'
+include ':face-alignment'
+include ':openCVLibrary320'
