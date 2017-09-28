@@ -18,15 +18,15 @@ public class FaceDet {
     private long mNativeFaceDetContext;
     private String mLandMarkPath = "";
 
-    static {
-        try {
-            System.loadLibrary("android_dlib");
-            jniNativeClassInit();
-            Log.d(TAG, "jniNativeClassInit success");
-        } catch (UnsatisfiedLinkError e) {
-            Log.e(TAG, "library not found");
-        }
-    }
+//    static {
+//        try {
+//            System.loadLibrary("android_dlib");
+//            jniNativeClassInit();
+//            Log.d(TAG, "jniNativeClassInit success");
+//        } catch (UnsatisfiedLinkError e) {
+//            Log.e(TAG, "library not found");
+//        }
+//    }
 
     @SuppressWarnings("unused")
     public FaceDet() {

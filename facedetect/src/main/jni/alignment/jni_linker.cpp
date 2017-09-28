@@ -1,9 +1,8 @@
 #include <jni.h>
+#include "jni_linker.h"
 #include "FaceTracker.h"
 
 FaceTracker* faceTracker = NULL;
-
-extern "C" {
 
 JNIEXPORT void JNICALL
 Java_com_face_landmark_FaceTracker_nativeInitializeFaceTracker( JNIEnv *env,
@@ -65,6 +64,4 @@ Java_com_face_landmark_FaceTracker_nativeReset(JNIEnv *env, jobject instance)
     {
         faceTracker->Reset();
     }
-}
-
 }

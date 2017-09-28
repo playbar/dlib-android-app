@@ -12,12 +12,6 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    static {
-        System.loadLibrary("opencv_java3");
-        System.loadLibrary("manipulation-lib");
-        System.loadLibrary("jni-linker");
-    }
-
     private CameraHandler mCameraHandler;
     private FaceTracker mFaceTracker;
     private DrawingSurfaceView mDrawingSurfaceView;
@@ -25,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_land);
 
         PermissionUtils.verifyPermissions(this);
 

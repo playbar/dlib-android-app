@@ -1,33 +1,40 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-set(pathLIBOPENCV_JAVA ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_java3.so)
-
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11  -frtti -fexceptions")
 
-file( GLOB MANIPULATION_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/alignment/*.cpp)
-file( GLOB MANIPULATION_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/alignment/*.h)
-
-add_library( jni-linker SHARED
-             alignment/jni_linker.cpp )
-
+set(LIBOPENCV_JAVA ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 add_library( lib_opencv SHARED IMPORTED )
-set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${pathLIBOPENCV_JAVA})
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${LIBOPENCV_JAVA})
 
-add_library( manipulation-lib SHARED ${MANIPULATION_SOURCES} ${MANIPULATION_HEADERS})
-set_target_properties( manipulation-lib PROPERTIES LINKER_LANGUAGE CXX )
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include
+                     ${CMAKE_CURRENT_SOURCE_DIR}
+                     ${CMAKE_CURRENT_SOURCE_DIR}/jni_common
+                     ${CMAKE_CURRENT_SOURCE_DIR}/jni_detections
+                     ${CMAKE_CURRENT_SOURCE_DIR}/glog)
 
-find_library(log-lib
-              log )
+add_library( alignment SHARED
+             alignment/FaceTracker.cpp
+             alignment/jni_linker.cpp
+             alignment/Tracking.cpp
+             dlib/threads/threads_kernel_shared.cpp
+             dlib/entropy_decoder/entropy_decoder_kernel_2.cpp
+             dlib/base64/base64_kernel_1.cpp
+             dlib/threads/threads_kernel_1.cpp
+             dlib/threads/threads_kernel_2.cpp
+             jni_common/jni_bitmap2mat.cpp
+             jni_common/jni_fileutils.cpp
+             jni_common/jni_utils.cpp
+             jni_common/rgb2yuv.cpp
+             jni_common/yuv2rgb.cpp
+             jni_detections/jni_face_det.cpp
+             jni_detections/jni_imageutils.cpp
+             jni_detections/jni_pedestrian_det.cpp
+             glog/logging.cc )
 
-find_library( android-lib android)
-
-target_link_libraries( manipulation-lib
+target_link_libraries( alignment
+                        log
+                        android
+                        jnigraphics
                         lib_opencv)
 
-target_link_libraries(jni-linker
-                       ${log-lib}
-                       ${android-lib}
-                       manipulation-lib
-                       lib_opencv)
