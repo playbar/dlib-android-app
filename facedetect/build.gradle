@@ -13,6 +13,8 @@ android {
         externalNativeBuild {
             cmake {
                 abiFilters 'armeabi-v7a'
+                arguments '-DANDROID_STL=gnustl_static'
+                arguments '-DANDROID_TOOLCHAIN=clang'
             }
         }
     }
