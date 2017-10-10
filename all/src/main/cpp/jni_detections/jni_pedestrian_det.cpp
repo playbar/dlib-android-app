@@ -13,6 +13,7 @@
 #include <jni_common/jni_utils.h>
 #include <detector.h>
 #include <jni.h>
+#include "jni_pedestrian_det.h"
 
 using namespace cv;
 extern JNI_VisionDetRet* g_pJNI_VisionDetRet;
@@ -78,9 +79,7 @@ void setDetectorPtr(JNIEnv* env, jobject thiz, DetectorPtr newPtr) {
 
 }  // end unnamespace
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 // ========================================================
 // JNI Mapping Methods
@@ -102,8 +101,7 @@ jobjectArray getDetRet(JNIEnv* env, DetectorPtr detectorPtr, const int& size) {
   return jDetRetArray;
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_com_tzutalin_dlib_PedestrianDet_jniDetect(JNIEnv* env, jobject thiz, jstring jImgPath)
+JNIEXPORT jobjectArray JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniDetect(JNIEnv* env, jobject thiz, jstring jImgPath)
 {
   LOG(INFO) << "jniPeopleDet";
   std::string path = jniutils::convertJStrToString(env, jImgPath);
@@ -114,8 +112,7 @@ Java_com_tzutalin_dlib_PedestrianDet_jniDetect(JNIEnv* env, jobject thiz, jstrin
   return getDetRet(env, detPtr, size);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_com_tzutalin_dlib_PedestrianDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobject bitmap)
+JNIEXPORT jobjectArray JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobject bitmap)
 {
   LOG(INFO) << "jniBitmapPeopleDet";
   cv::Mat rgbaMat;
@@ -128,7 +125,7 @@ Java_com_tzutalin_dlib_PedestrianDet_jniBitmapDetect(JNIEnv* env, jobject thiz, 
   return getDetRet(env, detPtr, size);
 }
 
-jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniInit(JNIEnv* env, jobject thiz)
+JNIEXPORT jint JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniInit(JNIEnv* env, jobject thiz)
 {
   LOG(INFO) << "jniInit";
   DetectorPtr detPtr = new OpencvHOGDetctor();
@@ -138,12 +135,10 @@ jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniInit(JNIEnv* env,
   return JNI_OK;
 }
 
-jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniDeInit(JNIEnv* env, jobject thiz)
+JNIEXPORT jint JNICALL Java_com_tzutalin_dlib_PedestrianDet_jniDeInit(JNIEnv* env, jobject thiz)
 {
   LOG(INFO) << "jniDeInit";
   return JNI_OK;
 }
 
-#ifdef __cplusplus
-}
-#endif
+

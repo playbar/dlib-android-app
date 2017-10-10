@@ -31,7 +31,7 @@ public class DlibDemoApp extends Application {
     static {
         System.loadLibrary("opencv_java3");
         System.loadLibrary("alignment");
-        System.loadLibrary("jni-linker");
+//        System.loadLibrary("jni-linker");
     }
 
     @Override

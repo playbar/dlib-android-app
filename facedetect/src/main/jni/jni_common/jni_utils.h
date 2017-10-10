@@ -12,9 +12,7 @@
 namespace jniutils {
 
 char* convertJStrToCStr(JNIEnv* env, jstring lString);
-
 std::string convertJStrToString(JNIEnv* env, jstring lString);
-
 JNIEnv* vm2env(JavaVM* vm);
 
 }  // end jniutils

@@ -51,7 +51,7 @@ import java.util.List;
  * Class that takes in preview frames and converts the image to Bitmaps to process with dlib lib.
  */
 public class OnGetImageListener implements OnImageAvailableListener {
-    private static final boolean SAVE_PREVIEW_BITMAP = false;
+    private static final boolean SAVE_PREVIEW_BITMAP = true;
 
     private static final int INPUT_SIZE = 224;
     private static final String TAG = "OnGetImageListener";

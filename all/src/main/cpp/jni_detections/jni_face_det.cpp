@@ -1,11 +1,3 @@
-/*
- * jni_pedestrian_det.cpp using google-style
- *
- *  Created on: Oct 20, 2015
- *      Author: Tzutalin
- *
- *  Copyright (c) 2015 Tzutalin. All rights reserved.
- */
 #include <android/bitmap.h>
 #include <jni_common/jni_bitmap2mat.h>
 #include <jni_common/jni_primitives.h>
@@ -13,6 +5,7 @@
 #include <jni_common/jni_utils.h>
 #include <detector.h>
 #include "mylog.h"
+#include "jni_face_det.h"
 #include <jni.h>
 
 
@@ -81,12 +74,10 @@ namespace {
 
 }  // end unnamespace
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
-void JNIEXPORT Java_com_tzutalin_dlib_FaceDet_jniNativeClassInit(JNIEnv* env, jclass _this)
+
+JNIEXPORT void JNICALL Java_com_tzutalin_dlib_FaceDet_jniNativeClassInit(JNIEnv* env, jclass _this)
 {
     LOGI("Java_com_tzutalin_dlib_FaceDet_jniNativeClassInit");
 }
@@ -120,8 +111,7 @@ jobjectArray getDetectResult(JNIEnv* env, DetectorPtr faceDetector, const int& s
     return jDetRetArray;
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_com_tzutalin_dlib_FaceDet_jniDetect(JNIEnv* env, jobject thiz, jstring imgPath)
+JNIEXPORT jobjectArray JNICALL Java_com_tzutalin_dlib_FaceDet_jniDetect(JNIEnv* env, jobject thiz, jstring imgPath)
 {
     LOG(INFO) << "jniFaceDet";
     const char* img_path = env->GetStringUTFChars(imgPath, 0);
@@ -132,8 +122,7 @@ Java_com_tzutalin_dlib_FaceDet_jniDetect(JNIEnv* env, jobject thiz, jstring imgP
     return getDetectResult(env, detPtr, size);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_com_tzutalin_dlib_FaceDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobject bitmap)
+JNIEXPORT jobjectArray JNICALL Java_com_tzutalin_dlib_FaceDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobject bitmap)
 {
     LOG(INFO) << "jniBitmapFaceDet";
     cv::Mat rgbaMat;
@@ -151,8 +140,7 @@ Java_com_tzutalin_dlib_FaceDet_jniBitmapDetect(JNIEnv* env, jobject thiz, jobjec
     return getDetectResult(env, detPtr, size);
 }
 
-jint JNIEXPORT JNICALL
-Java_com_tzutalin_dlib_FaceDet_jniInit(JNIEnv* env, jobject thiz, jstring jLandmarkPath)
+JNIEXPORT jint JNICALL Java_com_tzutalin_dlib_FaceDet_jniInit(JNIEnv* env, jobject thiz, jstring jLandmarkPath)
 {
     LOG(INFO) << "jniInit";
     std::string landmarkPath = jniutils::convertJStrToString(env, jLandmarkPath);
@@ -162,13 +150,11 @@ Java_com_tzutalin_dlib_FaceDet_jniInit(JNIEnv* env, jobject thiz, jstring jLandm
     return JNI_OK;
 }
 
-jint JNIEXPORT JNICALL Java_com_tzutalin_dlib_FaceDet_jniDeInit(JNIEnv* env, jobject thiz)
+JNIEXPORT jint JNICALL Java_com_tzutalin_dlib_FaceDet_jniDeInit(JNIEnv* env, jobject thiz)
 {
     LOG(INFO) << "jniDeInit";
     setDetectorPtr(env, thiz, JAVA_NULL);
     return JNI_OK;
 }
 
-#ifdef __cplusplus
-}
-#endif
+
