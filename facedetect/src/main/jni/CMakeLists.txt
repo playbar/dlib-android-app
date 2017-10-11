@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -frtti -fexceptions -mfloat-abi=softfp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -frtti -fexceptions")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -mfloat-abi=softfp")
 
 set(LIBOPENCV_JAVA ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 add_library( lib_opencv SHARED IMPORTED )
